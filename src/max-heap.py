@@ -1,17 +1,17 @@
 import math
 
-""" buildHeap runs maxHeapify on each node in the tree except leaves to create
-a max-heap from an array.  Assumes full array is heap. """
 def buildHeap(heap):
+  """ buildHeap runs maxHeapify on each node in the tree except leaves to create
+  a max-heap from an array.  Assumes full array is heap. """
   # Lowest node that is not a leaf
   node = int(math.floor(len(heap)/2))
   # Increment through nodes and find correct location
   for i in range(node, -1, -1):
     maxHeapify(heap, i, len(heap))
 
-""" maxHeapify moves the given index value to the correct location in the
-heap """
 def maxHeapify(heap, i, size):
+  """ maxHeapify moves the given index value to the correct location in the
+  heap """
   l = left(i)       # index value of left child
   r = right(i)      # index value of right child
 
@@ -33,26 +33,26 @@ def maxHeapify(heap, i, size):
     swap(heap, i, largest)
     maxHeapify(heap, largest, size) # recursively run again until current is correct
 
-""" swap swaps the values in the array for two given numbers"""
 def swap(heap, a, b):
+  """ swap swaps the values in the array for two given numbers"""
   temp = heap[a]
   heap[a] = heap[b]
   heap[b] = temp
 
-""" returns the location of the left child """
 def left(i):
+  """ returns the location of the left child """
   return 2 * i + 1
 
-""" returns the location of the right child """
 def right(i):
+  """ returns the location of the right child """
   return 2 * i + 2
 
-""" returns the location of the parent """
 def parent(i):
+  """ returns the location of the parent """
   return int(math.floor(i/2))
 
-""" sorts a heap in incrementing order """
 def heapsort(heap):
+  """ sorts a heap in incrementing order """
   buildHeap(heap)   # Form heap from array
   size = len(heap)
   # Move the highest number to the last location.  Reconfigure remaining heap
@@ -61,39 +61,39 @@ def heapsort(heap):
     size -= 1
     maxHeapify(heap, 0, size)
 
-""" heapMax returns the value of the largest key in the heap """
 def heapMax(heap):
+  """ heapMax returns the value of the largest key in the heap """
   return heap[0]
 
-""" heapGetMax returns the element with the largest key and removes it from
-the heap """
 def heapGetMax(heap):
+  """ heapGetMax returns the element with the largest key and removes it from
+  the heap """
   if len(heap) < 1:
-    return "heap underflow"
+    raise ValueError('heap underflow')
   max = heap[0]
   heap[0] = heap[len(heap)-1]
   del heap[len(heap)-1]
   maxHeapify(heap, 0, len(heap))
   return max
 
-""" heapIncKey replaces the current value of the given key with the new value
-as long as the new value is larger than the current value """
 def heapIncKey(heap, i, k):
+  """ heapIncKey replaces the current value of the given key with the new value
+  as long as the new value is larger than the current value """
   if k < heap[i]:
-    return "new key is too small"
+    raise ValueError('new key is too small')
   heap[i] = k
   while i > 0 and heap[parent(i)] < heap[i]:
     swap(heap, i, parent(i))
     i = parent(i)
 
-""" maxHeapInsert inserts a new key into a current heap in the correct
-position"""
 def maxHeapInsert(heap, key):
+  """ maxHeapInsert inserts a new key into a current heap in the correct
+  position"""
   heap.append(float("-inf"))
   heapIncKey(heap, len(heap)-1, key)
 
-""" main function"""
 def main():
+  """ main function"""
 
   print "build a new heap from current array:"
   heap = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -120,18 +120,24 @@ def main():
   heap = [16, 4, 10, 14, 7, 9, 3, 2, 8, 1]
   buildHeap(heap)
   print heap
-  max = heapGetMax(heap)
-  print heap
-  print max
+  try:
+    max = heapGetMax(heap)
+    print max
+    print heap
+  except ValueError as err:
+    print(err.args)
   print
 
   print "change the value of a key to a higher priority:"
   heap = [16, 4, 10, 14, 7, 9, 3, 2, 8, 1]
   buildHeap(heap)
   print heap
-  heapIncKey(heap, 3, 17)
-  print heap
-  print "Changed key for 8 to 17"
+  try:
+    heapIncKey(heap, 3, 4)
+    print heap
+    print "Changed key for 8 to 17"
+  except ValueError as err:
+    print(err.args)
   print
 
   print "max heap insert new key:"
