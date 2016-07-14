@@ -1,6 +1,7 @@
 # heapsfordays
 
-This is simple example code showing the basic functionality of a heap.
+This is simple example code showing the basic functionality of a heap.  Goes with the following blog posts:
+https://monotkate.wordpress.com/2016/07/13/heaps-for-days/
 
 ## Installation
 
